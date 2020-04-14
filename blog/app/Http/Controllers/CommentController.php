@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Comment;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class CommentController extends Controller
 {
@@ -13,9 +16,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::all();
-
-        return view('comments.index', compact('comments'));
+        
     }
 
     /**
@@ -23,9 +24,15 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('comments.create');
+        $article = new Comment([
+            'content'=>$request->get('content'),
+            'article_id'=>$request->get('article_id'),
+            'user_id'=>$request->get('user_id'),
+            ]);
+        $article->save();
+        return redirect('/articles')->with('edukas', 'Artikkel salvestatud');
     }
 
     /**
@@ -38,17 +45,17 @@ class CommentController extends Controller
     {
         $request->validate([
             'content'=>'required'
-            
-            ]);
+        ]);
 
+        
         $article = new Comment([
-            'content'=>$request->get('content')
-            
+            'content'=>$request->get('content'),
+            'article_id'=>$request->get('article_id'),
+            'user_id'=>1,
             ]);
-        $comment->save();
-        return redirect('/comments')->with('edukas', 'Kommentaar salvestatud');
+        $article->save();
+        return redirect('/articles')->with('edukas', 'Artikkel salvestatud');
     }
-
     /**
      * Display the specified resource.
      *
@@ -68,8 +75,7 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        $comment = Comment::find($id);
-        return view('comments.edit', compact('comment'));
+        
     }
 
     /**
@@ -81,16 +87,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'comment'=>'required',
-            
-        ]);
-
-        $comment = Comment::find($id);
-        $comment->content = $request->get('comment');
-        $comment->save();
-
-        return redirect('/comments')->with('edukas', 'Kommentaar muudetud!');
+        
     }
 
     /**
@@ -101,9 +98,12 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        $comment = Comment::find($id);
-        $comment->delete();
+        if(Auth::user()->is_admin){
+            $comment = Comment::find($id);
+            $comment->delete();
 
-        return redirect('/comments')->with('edukas', 'Kommentaar kustutatud!');
+            return redirect('/comments')->with('edukas', 'Kommentaar kustutatud!');
+        }
+        
     }
 }

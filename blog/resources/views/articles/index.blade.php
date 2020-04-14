@@ -10,11 +10,9 @@
   <table class="table table-striped">
     <thead>
         <tr>
-          <td>Nr</td>
-          <td>Pealkiri</td>
-          <td>Kirjeldus</td>
-          
-          <td colspan = 2></td>
+          <th width="80px">Nr</th>
+          <th>Pealkiri</th>
+          <th width="150px">Kirjeldus</th>
         </tr>
     </thead>
     <tbody>
@@ -23,7 +21,6 @@
             <td>{{$article->id}}</td>
             <td>{{$article->title}}</td>
             <td>{{$article->description}}</td>
-           
             <td>
             <a href="{{ route('articles.edit',$article->id)}}" class="btn btn-primary">Muuda</a>
             </td>
@@ -34,7 +31,9 @@
                   <button class="btn btn-danger" type="submit"e>Kustuta</button>
                 </form>
             </td>
+            <td>@include('articles.commentsDisplay', ['comments' => $article->comments])</td>
         </tr>
+        
         @endforeach
     </tbody>
   </table>
