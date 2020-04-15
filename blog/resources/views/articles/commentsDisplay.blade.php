@@ -2,7 +2,11 @@
     <div class="display-comment" 
         <strong>{{ $comment->user->name }}</strong>
         <p>{{ $comment->content }}</p>
-        <a href="" id="reply"></a>
+        <form action="{{ route('comments.destroy', $comment->id)}}" method="post">
+                  @csrf
+                  @method('DELETE')
+                  <button class="btn btn-danger" type="submit"e>Kustuta</button>
+                </form>
         
         
     </div>

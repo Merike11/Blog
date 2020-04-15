@@ -98,11 +98,11 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->is_admin){
+        if(Auth::user()->is_admin===1){
             $comment = Comment::find($id);
             $comment->delete();
 
-            return redirect('/comments')->with('edukas', 'Kommentaar kustutatud!');
+            return redirect('/articles')->with('edukas', 'Kommentaar kustutatud!');
         }
         
     }

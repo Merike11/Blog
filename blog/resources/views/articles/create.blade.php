@@ -12,7 +12,7 @@
                     <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-            </div><br />
+            </div>
             @endif
             <form method="post" action="{{ route('articles.store') }}">
                 @csrf
@@ -25,7 +25,7 @@
                     <label for="description">Kirjeldus:</label>
                     <input type="text" class="form-control" name="description"/>
                 </div>
-                                                           
+                <br>                                           
                 <button type="submit" class="btn btn-primary-outline">Lisa artikkel</button>
             </form>
         </div>
