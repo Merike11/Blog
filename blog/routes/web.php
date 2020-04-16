@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('articles.create');
 });
 Route::resource('articles', 'ArticleController');
 Route::resource('comments', 'CommentController');
